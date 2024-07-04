@@ -5,7 +5,7 @@ app.get('/', function (req, res){
     res.send('Hello World')
 })
 
-//Desafio sugerido - criar um endpoint /oi que exibe "Olá, mundo!"
+// Desafio sugerido - criar um endpoint /oi que exibe "Olá, mundo!"
 app.get('/oi', function (req, res){
     res.send('Olá, mundo!')
 })
@@ -30,22 +30,36 @@ app.post('/item', function (req, res) {
     // Inserir o item no final da lista
     lista.push(item)
 
-    //Envia uma mensagem de sucesso
+    // Envia uma mensagem de sucesso
     res.send ('Intem criado com sucesso!')
 })
 
 // Read By Id - [GET] /item/:id
 app.get('/item/:id', function (req, res) {
-    //Acessar o paramêtro de rota ID (/item/"123")
+    // Acessar o parâmetro de rota ID (/item/"123")
     const id = req.params.id
 
-    //Acessar o item na lista pelo índice corrigo (id - 1)
+    // Acessar o item na lista pelo índice corrigo (id - 1)
     const item = lista[id - 1]
     
-    //Envia o item obtido como resposta
+    // Envia o item obtido como resposta
     res.send(item)
 })
 
+// Update - [PUT] /item/:id
+app.put('/item/:id', function (req, res) {
+    // Acessa o ID do parâmetro de rota
+    const id = req.params.id
 
+    // Acessamos o body da requisição, com os dados
+    // a serem atualizados
+    const novoItem = req.body.nome
+
+    // Atualiza o novo Item na lista, usando o índice
+    lista[id - 1] = novoItem
+
+    // Msg de sucesso
+    res.send ('Item atualizado com sucesso: ' + id)
+})
 
 app.listen(3000)
