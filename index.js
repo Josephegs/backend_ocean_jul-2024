@@ -34,4 +34,18 @@ app.post('/item', function (req, res) {
     res.send ('Intem criado com sucesso!')
 })
 
+// Read By Id - [GET] /item/:id
+app.get('/item/:id', function (req, res) {
+    //Acessar o paramêtro de rota ID (/item/"123")
+    const id = req.params.id
+
+    //Acessar o item na lista pelo índice corrigo (id - 1)
+    const item = lista[id - 1]
+    
+    //Envia o item obtido como resposta
+    res.send(item)
+})
+
+
+
 app.listen(3000)
