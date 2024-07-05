@@ -26,10 +26,16 @@ async function main() {
     // LISTA DE PERSONAGENS
     const lista = ['Rick Sanchez', 'Morty Smith', 'Summer Smith']
 
+    const db = client.db(dbName)
+    const collection = db.collection('item')
+
     // Read All - (endpoint) [GET] /item
-    app.get('/item', function (req, res) {
-        // Pega a lista e retorna como resposta do /item (no HTTP)
-        res.send(lista)
+    app.get('/item', async function (req, res) {
+        // Obter todos os documentos da collection
+        const documentos = await collection.find().toArray()
+
+        // Pega os documentos e retorna como resposta do /item (no HTTP)
+        res.send(documentos)
     })
 
     // Sinalizar p/ o Express qual o formato da requisição usar (JSON)
