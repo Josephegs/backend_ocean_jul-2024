@@ -1,5 +1,5 @@
 const express = require('express')
-const { MongoClient } = require('mongodb')
+const { MongoClient, ObjectId } = require('mongodb')
 const app = express()
 
 // Conexão com o DB
@@ -54,13 +54,12 @@ async function main() {
     })
 
     // Read By Id - [GET] /item/:id
-    app.get('/item/:id', function (req, res) {
+    app.get('/item/:id', async function (req, res) {
         // Acessar o parâmetro de rota ID (/item/"123")
         const id = req.params.id
 
-        // Acessar o item na lista pelo índice corrigo (id - 1)
-        const item = lista[id - 1]
-
+        // Acessar o item na Collection pelo índice corrigo (id - 1)
+        const item = await collection.findOne({ _id: new ObjectId(id)})
         // Envia o item obtido como resposta
         res.send(item)
     })
