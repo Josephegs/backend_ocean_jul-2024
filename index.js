@@ -65,20 +65,34 @@ async function main() {
     })
 
     // Update - [PUT] /item/:id
-    app.put('/item/:id', function (req, res) {
+    app.put('/item/:id', async function (req, res) {
         // Acessa o ID do parâmetro de rota
         const id = req.params.id
 
         // Acessamos o body da requisição, com os dados
         // a serem atualizados
-        const novoItem = req.body.nome
+        const novoItem = req.body
 
-        // Atualiza o novo Item na lista, usando o índice
-        lista[id - 1] = novoItem
-
+        // Atualiza a collection com a nova informação
+        await collection.updateOne(
+            { _id: new ObjectId(id)},
+            { $set: novoItem}
+        )
         // Msg de sucesso
         res.send('Item atualizado com sucesso: ' + id)
     })
+
+    // Delete [DELETE] /item/:id
+    app.delete('/item/:id', async function (req, res){
+        // Acessamos o ID do parâmetro de rota
+        const id = req.params.id
+
+        // Remove o item da collection pelo ObjectID
+        await collection.deleteOne({ _id: new ObjectId (id)})
+
+        //Envia mensagem de sucesso
+        res.send('Item removido com sucesso')
+        })
 
     app.listen(3000)
 }
